@@ -35,11 +35,10 @@ public class MerkleTreeTest {
         assertEquals(7, merkleTree.getNodes().size());
         assertEquals(4, merkleTree.getLeafNodes().size());
 
-        assertEquals(merkleTree.getLeafNodes().get(0).parent, merkleTree.getLeafNodes().get(1).parent);
-        assertEquals(merkleTree.getLeafNodes().get(2).parent, merkleTree.getLeafNodes().get(3).parent);
+        assertEquals(merkleTree.getLeafNodes().get(0).getParent(), merkleTree.getLeafNodes().get(1).getParent());
+        assertEquals(merkleTree.getLeafNodes().get(2).getParent(), merkleTree.getLeafNodes().get(3).getParent());
 
-        assertEquals(merkleTree.getLeafNodes().get(0).parent.parent, merkleTree.getLeafNodes().get(2).parent.parent);
-
-        assertEquals(merkleTree.getLeafNodes().get(0).parent.parent, merkleTree.getRootNode());
+        assertEquals(merkleTree.getLeafNodes().get(0).getParent().getParent(), merkleTree.getLeafNodes().get(2).getParent().getParent());
+        assertEquals(merkleTree.getLeafNodes().get(0).getParent().getParent(), merkleTree.getRootNode());
     }
 }

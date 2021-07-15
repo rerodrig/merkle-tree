@@ -1,5 +1,6 @@
 package com.algorithm.merkletree.domain;
 
+import com.algorithm.merkletree.utils.FillerNode;
 import com.algorithm.merkletree.utils.HashUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -12,7 +13,6 @@ import java.util.logging.Logger;
 public class MerkleTree {
 
     private static final Logger LOGGER = Logger.getLogger(MerkleTree.class.getName());
-    private static final byte[] FILLER = "0".getBytes(StandardCharsets.UTF_8);
 
     private final List<Node> leafNodes;
     private final List<Node> nodes;
@@ -25,11 +25,11 @@ public class MerkleTree {
     }
 
     public String getHash() {
-        return HashUtils.bytesToHex(this.rootNode.hash);
+        return HashUtils.bytesToHex(this.rootNode.getHash());
     }
 
     public long getPieces() {
-        return this.leafNodes.stream().filter(n -> !n.isFiller).count();
+        return this.leafNodes.stream().filter(n -> !n.isFiller()).count();
     }
 
     public Node getRootNode() {
@@ -48,7 +48,7 @@ public class MerkleTree {
         int fillerNodesQty = getFillerNodesQty();
 
         for (int i = 0; i < fillerNodesQty; i++) {
-            Node fillerNode = new Node(FILLER);
+            Node fillerNode = new Node(FillerNode.CONTENT);
             this.leafNodes.add(fillerNode);
             this.nodes.add(fillerNode);
         }
@@ -78,8 +78,8 @@ public class MerkleTree {
                 Node leftChild = nodes.get(i);
                 Node rightChild = nodes.get(i + 1);
                 Node parent = new Node(leftChild, rightChild);
-                leftChild.parent = parent;
-                rightChild.parent = parent;
+                leftChild.setParent(parent);
+                rightChild.setParent(parent);
                 parentNodes.add(parent);
                 this.nodes.add(parent);
             }
@@ -88,9 +88,9 @@ public class MerkleTree {
     }
 
     public void print() {
-        LOGGER.info("Root node: " + HashUtils.bytesToHex(this.rootNode.hash));
+        LOGGER.info("Root node: " + HashUtils.bytesToHex(this.rootNode.getHash()));
         this.leafNodes.forEach(node -> {
-            LOGGER.info(HashUtils.bytesToHex(node.hash));
+            LOGGER.info(HashUtils.bytesToHex(node.getHash()));
         });
         LOGGER.info(String.valueOf(this.nodes.size()));
     }
