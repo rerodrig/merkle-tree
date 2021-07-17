@@ -15,6 +15,7 @@ public class MerkleTreeFactory {
     private static final Logger LOGGER = Logger.getLogger(MerkleTreeFactory.class.getName());
 
     public static MerkleTree build(String filePath) throws Exception {
+
         try {
 
             byte[] buffer = new byte[PIECE_SIZE];
