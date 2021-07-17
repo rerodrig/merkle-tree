@@ -1,5 +1,6 @@
 package com.algorithm.merkletree;
 
+import com.algorithm.merkletree.controller.MerkleTreeController;
 import com.algorithm.merkletree.domain.MerkleTree;
 import com.algorithm.merkletree.service.MerkleTreeService;
 import com.algorithm.merkletree.utils.MerkleTreeFactory;

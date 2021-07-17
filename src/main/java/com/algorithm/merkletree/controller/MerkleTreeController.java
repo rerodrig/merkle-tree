@@ -1,4 +1,4 @@
-package com.algorithm.merkletree;
+package com.algorithm.merkletree.controller;
 
 import com.algorithm.merkletree.domain.Hash;
 import com.algorithm.merkletree.domain.MerkleTree;
