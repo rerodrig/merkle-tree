@@ -3,7 +3,6 @@ package com.algorithm.merkletree.domain;
 import com.algorithm.merkletree.utils.FillerNode;
 import com.algorithm.merkletree.utils.HashUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,9 +88,27 @@ public class MerkleTree {
 
     public void print() {
         LOGGER.info("Root node: " + HashUtils.bytesToHex(this.rootNode.getHash()));
-        this.leafNodes.forEach(node -> {
+        this.nodes.forEach(node -> {
             LOGGER.info(HashUtils.bytesToHex(node.getHash()));
         });
         LOGGER.info(String.valueOf(this.nodes.size()));
     }
+
+    public Piece getPiece(int piece) {
+        Node node = getLeafNodes().get(piece);
+        List<String> proof = new ArrayList<>();
+
+        Node sibling = node.getSibling();
+        proof.add(HashUtils.bytesToHex(sibling.getHash()));
+
+        Node currentNode = node;
+        do {
+            Node uncleNode = currentNode.getUncle();
+            proof.add(HashUtils.bytesToHex(uncleNode.getHash()));
+            currentNode = uncleNode;
+        } while (currentNode.getParent().getHash() != rootNode.getHash());
+
+        return new Piece(node.getContent(), proof.toArray(new String[0]));
+    }
+
 }

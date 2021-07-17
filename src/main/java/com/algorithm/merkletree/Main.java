@@ -1,19 +1,19 @@
 package com.algorithm.merkletree;
 
 import com.algorithm.merkletree.domain.MerkleTree;
+import com.algorithm.merkletree.service.MerkleTreeService;
 import com.algorithm.merkletree.utils.MerkleTreeFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.logging.Logger;
 
 public class Main {
 
-    public static final List<MerkleTree> hashes = Collections.synchronizedList(new ArrayList<>());
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws Exception {
+        MerkleTreeService merkleTreeService = new MerkleTreeService();
         String filePath = args[0];
         MerkleTree merkleTree = MerkleTreeFactory.build(filePath);
-        hashes.add(merkleTree);
+        merkleTreeService.addHash(merkleTree);
     }
 }
